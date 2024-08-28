@@ -31,33 +31,26 @@ class ContactPage extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: 
-        
-        Column(
+        child: Column(
           // image name numbear
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-           Container(
-             height: 200,
-             width: 220,
-          
-             child: Image.network('${contacts.image}'
-             ),
-             
-           ),
-           SizedBox(height: 10,
-          ),
-           Text('${contacts.name}',
-           style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold
-           ),
-           ),
-          Text('${contacts.number}',)
-
-          
-         
+            Container(
+              height: 200,
+              width: 220,
+              child: Image.network('${contacts.defuldimage}'),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              '${contacts.name}',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '${contacts.number}',
+            ),
         
           ],
         ),

@@ -1,15 +1,14 @@
-import 'dart:ffi';
 
 class UsarModal {
 
 String? name;
-String? image;  
+String? defuldimage;  
 int? number;
 UsarModal(
 
 {
   this.name,
-  this.image,
+  this.defuldimage,
   this.number,
 }
 );

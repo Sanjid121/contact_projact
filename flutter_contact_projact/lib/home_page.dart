@@ -10,16 +10,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<UsarModal> contacts = [
-    
-  ];
+  List<UsarModal> contacts = [];
   TextEditingController name = TextEditingController();
   TextEditingController lastname = TextEditingController();
   TextEditingController mobile = TextEditingController();
   usarDatadd() {
     UsarModal contact = UsarModal(
       name: name.text,
-     defuldimage: defuldimage,
+      defuldimage: defuldimage,
       number: int.parse(mobile.text),
     );
     setState(() {
@@ -30,64 +28,103 @@ class _HomePageState extends State<HomePage> {
     lastname.clear();
     mobile.clear();
   }
-String defuldimage='https://cdn-icons-png.flaticon.com/128/3518/3518775.png';
+
+  String defuldimage =
+      'https://cdn-icons-png.flaticon.com/128/3518/3518775.png';
   Widget useradd() {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF1A3955),
-        title: Text(
-          'Add Contact',
-          style: TextStyle(color: Color(0xFFD36661)),
-        ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back),
-          color: Colors.white,
-        ),
-        actions: [
-          IconButton(
+        appBar: AppBar(
+          backgroundColor: Color(0xFF1A3955),
+          title: Text(
+            'Add Contact',
+            style: TextStyle(color: Color(0xFFD36661)),
+          ),
+          leading: IconButton(
             onPressed: () {
-              usarDatadd();
               Navigator.pop(context);
             },
-            icon: Icon(Icons.check),
+            icon: Icon(Icons.arrow_back),
             color: Colors.white,
-            highlightColor: Colors.white,
-            iconSize: 35,
           ),
-          SizedBox(width: 10),
-        ],
-      ),
-      body: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(children: [
-            TextField(
-              controller: name,
-              decoration: InputDecoration(
-                hintText: 'First Name',
-              ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                usarDatadd();
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.check),
+              color: Colors.white,
+              highlightColor: Colors.white,
+              iconSize: 35,
             ),
-            TextField(
-              controller: lastname,
-              decoration: InputDecoration(
-                hintText: 'Last Name',
-              ),
+            SizedBox(width: 20),
+          ],
+        ),
+        body: ListView(children: [
+          SizedBox(height: 20),
+          Container(
+            child: Image.network(
+                'https://cdn-icons-png.flaticon.com/128/13434/13434890.png'),
+             
+                height: 70,
+                width: 70,
+                
+     ),
+     SizedBox(height: 25),
+     Container(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          
+          controller: name,
+          decoration: InputDecoration(
+            icon: Icon(Icons.person),
+            border: OutlineInputBorder(
+               borderRadius: BorderRadius.circular(10),
             ),
-            TextField(
-              controller: mobile,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                hintText: 'Mobile Number',
-              ),
-              maxLength: 11,
-            )
-          ]),
+            labelText: 'Name',
+            hintText: 'Enter Name',
+          ),
         ),
       ),
-    );
+     ),
+     
+     Container(
+child: Padding(
+  padding: const EdgeInsets.all(8.0),
+  child: TextField(
+    controller: lastname,
+    decoration: InputDecoration(
+      icon: Icon(Icons.person),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      labelText: 'Last Name',
+      hintText: 'Enter Last Name',
+    ),
+  ),
+),
+
+     ),
+
+     Container( 
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: mobile,
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            icon: Icon(Icons.phone),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            labelText: 'Mobile',
+            hintText: 'Enter Mobile Number',
+          ),
+        ),
+      ),
+     ),
+        ]));
   }
 
   @override
@@ -153,7 +190,8 @@ String defuldimage='https://cdn-icons-png.flaticon.com/128/3518/3518775.png';
                 ),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage(contacts[index].defuldimage ?? defuldimage),
+                    backgroundImage: NetworkImage(
+                        contacts[index].defuldimage ?? defuldimage),
                   ),
                   title: Text(contacts[index].name!),
                   subtitle: Text(contacts[index].number!.toString()),

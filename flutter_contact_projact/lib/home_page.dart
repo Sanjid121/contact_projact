@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contact_projact/contact_page.dart';
 import 'package:flutter_contact_projact/modal/usar_modal.dart';
+import 'package:flutter_contact_projact/nevbear.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -65,71 +66,66 @@ class _HomePageState extends State<HomePage> {
           Container(
             child: Image.network(
                 'https://cdn-icons-png.flaticon.com/128/13434/13434890.png'),
-             
-                height: 70,
-                width: 70,
-                
-     ),
-     SizedBox(height: 25),
-     Container(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextField(
-          
-          controller: name,
-          decoration: InputDecoration(
-            icon: Icon(Icons.person),
-            border: OutlineInputBorder(
-               borderRadius: BorderRadius.circular(10),
-            ),
-            labelText: 'Name',
-            hintText: 'Enter Name',
+            height: 70,
+            width: 70,
           ),
-        ),
-      ),
-     ),
-     
-     Container(
-child: Padding(
-  padding: const EdgeInsets.all(8.0),
-  child: TextField(
-    controller: lastname,
-    decoration: InputDecoration(
-      icon: Icon(Icons.person),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      labelText: 'Last Name',
-      hintText: 'Enter Last Name',
-    ),
-  ),
-),
-
-     ),
-
-     Container( 
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextField(
-          controller: mobile,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            icon: Icon(Icons.phone),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+          SizedBox(height: 25),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: name,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.person),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  labelText: 'Name',
+                  hintText: 'Enter Name',
+                ),
+              ),
             ),
-            labelText: 'Mobile',
-            hintText: 'Enter Mobile Number',
           ),
-        ),
-      ),
-     ),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: lastname,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.person),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  labelText: 'Last Name',
+                  hintText: 'Enter Last Name',
+                ),
+              ),
+            ),
+          ),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: mobile,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.call),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  labelText: 'Mobile',
+                  hintText: 'Enter Mobile Number',
+                ),
+              ),
+            ),
+          ),
         ]));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Nevbear(),
       appBar: AppBar(
         toolbarHeight: 80,
         centerTitle: false,
@@ -159,14 +155,7 @@ child: Padding(
               )),
           SizedBox(width: 15),
         ],
-        leading: Align(
-          alignment: AlignmentDirectional.centerEnd,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.network(
-                'https://cdn-icons-png.flaticon.com/128/483/483947.png'),
-          ),
-        ),
+      
       ),
       body: ListView.builder(
         itemCount: contacts.length,

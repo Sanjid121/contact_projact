@@ -5,6 +5,6 @@ void main() {
   runApp(MaterialApp(
     title: "Contact App",
     debugShowCheckedModeBanner: false,
-    home: HomePage(),
+    home: MyHomePage(),
   ));
 }

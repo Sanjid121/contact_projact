@@ -1,195 +1,180 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_contact_projact/contact_page.dart';
-import 'package:flutter_contact_projact/modal/usar_modal.dart';
 import 'package:flutter_contact_projact/nevbear.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
+void main() {
+  runApp(MyApp());
 }
 
-class _HomePageState extends State<HomePage> {
-  List<UsarModal> contacts = [];
-  TextEditingController name = TextEditingController();
-  TextEditingController lastname = TextEditingController();
-  TextEditingController mobile = TextEditingController();
-  usarDatadd() {
-    UsarModal contact = UsarModal(
-      name: name.text,
-      defuldimage: defuldimage,
-      number: int.parse(mobile.text),
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: '',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color.fromARGB(255, 134, 212, 181),
+        ),
+        useMaterial3: true,
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w400,
+            color: Colors.black87,
+          ),
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.teal,
+          foregroundColor: Colors.white,
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.tealAccent,
+          foregroundColor: Colors.black87,
+        ),
+      ),
+      home: MyHomePage(),
     );
-    setState(() {
-      contacts.add(contact);
-    });
+  }
+}
 
-    name.clear();
-    lastname.clear();
-    mobile.clear();
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  List<String> _names = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadNames();
   }
 
-  String defuldimage =
-      'https://cdn-icons-png.flaticon.com/128/3518/3518775.png';
-  Widget useradd() {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xFF1A3955),
-          title: Text(
-            'Add Contact',
-            style: TextStyle(color: Color(0xFFD36661)),
+  
+  _loadNames() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      _names = prefs.getStringList('names') ?? [];
+    });
+  }
+
+
+  _saveName(String name) async {
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _names.add(name);
+    });
+    await SharedPreferences.getInstance().then((prefs) {
+      prefs.setStringList('names', _names);
+    });
+  }
+
+
+  _addName() async {
+    TextEditingController nameController = TextEditingController();
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back),
-            color: Colors.white,
+          title: Text('Add a Name'),
+          content: TextField(
+            controller: nameController,
+            decoration: InputDecoration(
+              labelText: "Enter name",
+              border: OutlineInputBorder(),
+            ),
           ),
-          actions: [
-            IconButton(
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'N O T  N E W',
+                style: TextStyle(color: const Color.fromARGB(255, 247, 47, 1)),
+              ),
               onPressed: () {
-                usarDatadd();
-                Navigator.pop(context);
+                Navigator.of(context).pop();
               },
-              icon: Icon(Icons.check),
-              color: Colors.white,
-              highlightColor: Colors.white,
-              iconSize: 35,
             ),
-            SizedBox(width: 20),
+            ElevatedButton(
+              child: Text('S A V E'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 5, 212, 84),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () {
+                if (nameController.text.isNotEmpty) {
+                  _saveName(nameController.text);
+                }
+                Navigator.of(context).pop();
+              },
+            ),
           ],
-        ),
-        body: ListView(children: [
-          SizedBox(height: 20),
-          Container(
-            child: Image.network(
-                'https://cdn-icons-png.flaticon.com/128/13434/13434890.png'),
-            height: 70,
-            width: 70,
-          ),
-          SizedBox(height: 25),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: name,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.person),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelText: 'Name',
-                  hintText: 'Enter Name',
-                ),
-              ),
-            ),
-          ),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: lastname,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.person),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelText: 'Last Name',
-                  hintText: 'Enter Last Name',
-                ),
-              ),
-            ),
-          ),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: mobile,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.call),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelText: 'Mobile',
-                  hintText: 'Enter Mobile Number',
-                ),
-              ),
-            ),
-          ),
-        ]));
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Nevbear(),
       appBar: AppBar(
-        toolbarHeight: 80,
-        centerTitle: false,
-        title: Text(
-          "CONTACTS",
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Color(0xFF1C3A56),
-        actions: [
+        
+        title: Text("Contact List"),
+        backgroundColor: Colors.teal,
+  
+        centerTitle: true,
+        leading: 
+          
           IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.search,
-                color: Colors.black,
-                size: 35,
-              )),
-          SizedBox(width: 5),
-          IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => useradd()));
-              },
-              icon: Icon(
-                Icons.add_ic_call,
-                color: Colors.black,
-                size: 35,
-              )),
-          SizedBox(width: 15),
-        ],
-      
+            icon: Icon(Icons.menu),
+            color: Colors.black87,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Nevbear()),
+              );
+            },
+          ),
       ),
-      body: ListView.builder(
-        itemCount: contacts.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 17),
-            child: InkWell(
-              onTap: () {
-                //   return contact page
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ContactPage(
-                              contacts: contacts[index],
-                            )));
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 219, 227, 236),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        contacts[index].defuldimage ?? defuldimage),
+     
+      body: Padding(
+        
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+          itemCount: _names.length,
+          itemBuilder: (context, index) {
+            return Card(
+              color: Colors.teal[50],
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                side: BorderSide(color: Colors.teal, width: 2),
+              ),
+              child: ListTile(
+                title: Text(
+                  _names[index],
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
                   ),
-                  title: Text(contacts[index].name!),
-                  subtitle: Text(contacts[index].number!.toString()),
-                  trailing: Icon(Icons.call),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addName,
+        tooltip: 'Add Name',
+        child: Icon(Icons.save_as_outlined),
       ),
     );
   }
